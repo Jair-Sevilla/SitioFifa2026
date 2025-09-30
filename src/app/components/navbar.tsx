@@ -1,25 +1,42 @@
-import React from "react";
+"use client";
 
+import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname(); // Detecta la ruta actual
+
+  const menuItems = [
+    { name: "Productos", href: "/" },
+    { name: "Soluciones", href: "/soluciones" },
+    { name: "Comunidad", href: "/comunidad" },
+    { name: "Recursos", href: "/recursos" },
+    { name: "Precios", href: "/precios" },
+    { name: "Contacto", href: "/contacto" },
+    { name: "Enlace", href: "/enlace" },
+  ];
+
   return (
     <nav className="w-full bg-black text-white px-6 py-3 flex items-center justify-between">
       {/* Logo */}
       <div className="text-xl font-bold cursor-pointer">Fifa 2026</div>
 
       {/* Menú */}
-      <ul className="flex space-x-6 text-sm">
-        <li className="bg-gray-200 text-black rounded-full px-3 py-1 cursor-pointer">
-          Productos
-        </li>
-        <li className="hover:text-gray-300 cursor-pointer">Soluciones</li>
-        <li className="hover:text-gray-300 cursor-pointer">Comunidad</li>
-        <li className="hover:text-gray-300 cursor-pointer">Recursos</li>
-        <li className="hover:text-gray-300 cursor-pointer">Precios</li>
-        <li className="hover:text-gray-300 cursor-pointer">
-          <a href="/contacto">Contacto</a>
-        </li>
-        <li className="hover:text-gray-300 cursor-pointer">Enlace</li>
+      <ul className="flex space-x-6 text-sm items-center justify-center flex-1">
+        {menuItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <li
+              key={item.name}
+              className={`cursor-pointer px-3 py-1 rounded-full transition-colors ${
+                isActive ? "bg-white text-black" : "hover:bg-gray-700 hover:text-white"
+              }`}
+            >
+              <Link href={item.href}>{item.name}</Link>
+            </li>
+          );
+        })}
       </ul>
 
       {/* Botones */}
